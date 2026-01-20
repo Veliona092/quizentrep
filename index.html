@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrepreneurship Quiz</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 { text-align: center; color: #2c3e50; }
+    .question {
+      margin: 25px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+    .options label {
+      display: block;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    .correctAnswer {
+      margin-top: 12px;
+      padding: 8px;
+      border-radius: 4px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      font-weight: bold;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+    }
+    #submitBtn { background: #1976d2; color: white; }
+    #resetBtn { background: #d32f2f; color: white; }
+    #score {
+      font-size: 1.5em;
+      font-weight: bold;
+      text-align: center;
+      margin: 30px 0;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Entrepreneurship Quiz</h1>
+  <p id="message">Choose the best answer for each question. Click "Submit" to see your score.</p>
+
+  <form id="quizForm" onsubmit="return false;"></form>
+
+  <div style="text-align:center;">
+    <button id="submitBtn" onclick="submitQuiz()">Submit</button>
+    <button id="resetBtn" onclick="resetQuiz()">Reset Quiz</button>
+  </div>
+
+  <div id="score"></div>
+
+   <script>
+   const questions = [
+
+  // Original + Etymology / Basic Origin
+  {
+    question: "What is the French word from which the term 'entrepreneurship' is derived?",
+    options: ["A) Entrevenir", "B) Entreprendre", "C) Entrapreneur", "D) Entreprennant"],
+    answer: "B"
+  },
+  {
+    question: "What does the French word 'entreprendre' literally mean in English?",
+    options: ["A) To manage", "B) To invest", "C) To undertake", "D) To organize"],
+    answer: "C"
+  },
+  {
+    question: "According to Lloyd Shefsky, the word 'entrepreneur' can be broken down into:",
+    options: [
+      "A) Enter + prize + owner",
+      "B) Entre + pre + neur (enter + before + nerve center)",
+      "C) Enter + before + person",
+      "D) Entre + preneur + ship"
+    ],
+    answer: "B"
+  },
+  {
+    question: "Who wrote the book 'Entrepreneurs Are Made, Not Born'?",
+    options: ["A) Richard Cantillon", "B) Joseph Schumpeter", "C) Lloyd Shefsky", "D) Karl Vesper"],
+    answer: "C"
+  },
+
+  // Characteristics & Vesper
+  {
+    question: "Which of the following are commonly cited as the three main characteristics of successful entrepreneurs?",
+    options: [
+      "A) Planning, Organizing, Leading",
+      "B) Risk-taking, Innovation, Visionary",
+      "C) Profit, Power, Prestige",
+      "D) Control, Competition, Confidence"
+    ],
+    answer: "B"
+  },
+  {
+    question: "Karl Vesper describes entrepreneurship as a 'concern of ______ professions'.",
+    options: ["A) Successful", "B) Business", "C) Various", "D) Modern"],
+    answer: "C"
+  },
+  {
+    question: "Complete Karl Vesper's statement: 'Entrepreneurship is now a concern of ______ professions.'",
+    options: ["A) Few", "B) Selected", "C) Various", "D) Economic"],
+    answer: "C"
+  },
+
+  // Threat vs Ally & Perspectives
+  {
+    question: "To one businessman an entrepreneur appears as a ______, whereas to another, the entrepreneur may be an ______.",
+    options: ["A) Ally / Threat", "B) Threat / Ally", "C) Customer / Supplier", "D) Investor / Competitor"],
+    answer: "B"
+  },
+  {
+    question: "From the economist's perspective, an entrepreneur brings together resources, labor, materials, and other assets to make their value ______ than before.",
+    options: ["A) Lower", "B) Equal", "C) Greater", "D) Uncertain"],
+    answer: "C"
+  },
+  {
+    question: "From the psychologist's perspective, entrepreneurs are primarily driven by ______ characteristics.",
+    options: ["A) Economic", "B) Psychological", "C) Social", "D) Political"],
+    answer: "B"
+  },
+  {
+    question: "From the sociologist's perspective, entrepreneurship is influenced by factors like culture, values, role expectations, and ______ sanctions.",
+    options: ["A) Legal", "B) Economic", "C) Social", "D) Technological"],
+    answer: "C"
+  },
+
+  // Historical Figures & Definitions
+  {
+    question: "Who first introduced the term 'entrepreneur' into economics in 1755?",
+    options: ["A) Joseph Schumpeter", "B) Richard Cantillon", "C) Karl Vesper", "D) Lloyd Shefsky"],
+    answer: "B"
+  },
+  {
+    question: "Joseph Schumpeter described entrepreneurs as innovators who engage in 'creative ______'.",
+    options: ["A) Construction", "B) Destruction", "C) Innovation", "D) Management"],
+    answer: "B"
+  },
+  {
+    question: "Entrepreneurship is the process of creating something new with value by devoting time and effort, assuming financial, psychic, and social ______, and receiving rewards.",
+    options: ["A) Benefits", "B) Opportunities", "C) Risks", "D) Resources"],
+    answer: "C"
+  },
+
+  // Chapter 4 – Entrepreneurial Mindset
+  {
+    question: "The 'dark side' of entrepreneurship refers to:",
+    options: [
+      "A) Too much profit",
+      "B) The risks, stress, and negative aspects entrepreneurs face",
+      "C) Only financial losses",
+      "D) Lack of innovation"
+    ],
+    answer: "B"
+  },
+  {
+    question: "Which is NOT one of the four main types of risk entrepreneurs face?",
+    options: ["A) Financial risk", "B) Career risk", "C) Family and social risk", "D) Technological risk"],
+    answer: "D"
+  },
+  {
+    question: "Psychic risk refers to the ______ impact of failure on the entrepreneur.",
+    options: ["A) Financial", "B) Career", "C) Psychological", "D) Social"],
+    answer: "C"
+  },
+  {
+    question: "Which of these is a major cause of entrepreneurial stress?",
+    options: ["A) Too much free time", "B) Loneliness", "C) Low responsibility", "D) Excessive relaxation"],
+    answer: "B"
+  },
+  {
+    question: "Entrepreneurs with Type A personalities are characterized by:",
+    options: [
+      "A) Chronic sense of time urgency and excessive responsibility",
+      "B) Relaxed attitude toward deadlines",
+      "C) Preference for routine tasks",
+      "D) Avoidance of multiple projects"
+    ],
+    answer: "A"
+  },
+  {
+    question: "One way entrepreneurs can deal with stress is by:",
+    options: ["A) Isolating themselves", "B) Delegating tasks", "C) Working longer hours", "D) Avoiding exercise"],
+    answer: "B"
+  },
+  {
+    question: "A self-destructive characteristic of the entrepreneurial ego is an overbearing need for:",
+    options: ["A) Failure", "B) Control", "C) Routine", "D) Criticism"],
+    answer: "B"
+  },
+  {
+    question: "The first step in the entrepreneurial process is often:",
+    options: ["A) Securing funding", "B) Opportunity recognition", "C) Writing a business plan", "D) Hiring employees"],
+    answer: "B"
+  },
+  {
+    question: "Which of the following is NOT a common source of innovative ideas for entrepreneurs?",
+    options: [
+      "A) Unexpected occurrences",
+      "B) Incongruities between reality and expectations",
+      "C) Routine daily tasks",
+      "D) Changes in industry or market structure"
+    ],
+    answer: "C"
+  },
+  {
+    question: "Peter Drucker identified seven sources of innovative opportunity. Which one involves new knowledge?",
+    options: [
+      "A) The unexpected",
+      "B) Process need",
+      "C) Demographics",
+      "D) New knowledge (scientific or non-scientific)"
+    ],
+    answer: "D"
+  },
+  {
+    question: "The creative process typically includes stages such as preparation, incubation, illumination, and:",
+    options: ["A) Execution", "B) Verification/Implementation", "C) Funding", "D) Marketing"],
+    answer: "B"
+  },
+  {
+    question: "To develop personal creativity, entrepreneurs should avoid:",
+    options: [
+      "A) Recognizing relationships between concepts",
+      "B) Muddling mind-sets or mental blocks",
+      "C) Accumulating knowledge",
+      "D) Allowing time for incubation"
+    ],
+    answer: "B"
+  },
+  {
+    question: "One key factor for creating a creative climate in an organization is:",
+    options: ["A) Strict rules and hierarchy", "B) Encouraging risk-taking and tolerance of failure", "C) Punishing mistakes harshly", "D) Limiting new ideas"],
+    answer: "B"
+  },
+  {
+    question: "Which type of innovation involves creating entirely new products or services that disrupt markets?",
+    options: ["A) Incremental innovation", "B) Radical innovation", "C) Architectural innovation", "D) Routine innovation"],
+    answer: "B"
+  },
+  {
+    question: "A common myth about innovation is that:",
+    options: [
+      "A) It requires creativity and hard work",
+      "B) Only highly educated people can innovate",
+      "C) It can come from observing trends and problems",
+      "D) It often involves teamwork"
+    ],
+    answer: "B"
+  }
+];
+
+    const quizForm = document.getElementById('quizForm');
+
+    function shuffleArray(array) {
+      const copy = array.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function renderQuiz() {
+      quizForm.innerHTML = '';
+      const shuffledQuestions = shuffleArray([...questions]);
+
+      shuffledQuestions.forEach((q, index) => {
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'question';
+
+        questionDiv.innerHTML = `<p><strong>${index + 1}. ${q.question}</strong></p>`;
+
+        const optionsDiv = document.createElement('div');
+        optionsDiv.className = 'options';
+
+        q.options.forEach(option => {
+          const label = document.createElement('label');
+          const radio = document.createElement('input');
+          radio.type = 'radio';
+          radio.name = `question${index}`;
+          radio.value = option.charAt(0); // A, B, C, D
+
+          label.appendChild(radio);
+          label.appendChild(document.createTextNode(' ' + option));
+          optionsDiv.appendChild(label);
+        });
+
+        questionDiv.appendChild(optionsDiv);
+
+        // Create and store correct answer element INSIDE this div
+        const correctP = document.createElement('p');
+        correctP.className = 'correctAnswer';
+        correctP.style.display = 'none';
+        correctP.textContent = `Correct answer: ${q.options.find(opt => opt.startsWith(q.answer)) || q.answer}`;
+        questionDiv.appendChild(correctP);
+
+        // We'll use this div later to find the correctP easily
+        questionDiv.dataset.index = index;
+
+        quizForm.appendChild(questionDiv);
+      });
+    }
+
+    function submitQuiz() {
+      let score = 0;
+      const total = questions.length;
+
+      // Loop through all question divs in DOM order
+      document.querySelectorAll('.question').forEach(questionDiv => {
+        const radio = questionDiv.querySelector('input[type="radio"]:checked');
+        const userAnswer = radio ? radio.value : null;
+
+        // Find the correct answer paragraph inside THIS div
+        const correctP = questionDiv.querySelector('.correctAnswer');
+
+        // Find the original question object (we don't need index anymore)
+        const correctAnswerLetter = questions.find(q => 
+          q.options.some(opt => opt.startsWith(userAnswer || ''))
+        )?.answer;
+
+        const isCorrect = userAnswer === correctAnswerLetter;
+
+        if (isCorrect) {
+          score++;
+          if (correctP) correctP.style.display = 'none';
+        } else {
+          if (correctP) correctP.style.display = 'block';
+        }
+      });
+
+      document.getElementById('score').innerText = 
+        `Your score: ${score} out of ${total} (${((score / total) * 100).toFixed(1)}%)`;
+    }
+
+    function resetQuiz() {
+      quizForm.innerHTML = '';
+      document.getElementById('score').innerText = '';
+      renderQuiz();
+    }
+
+    // Start the quiz
+    renderQuiz();
+  </script>
+</body>
+</html>
